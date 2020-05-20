@@ -4,7 +4,8 @@
   "description": "TypeScript implementation of Lox language ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -22,8 +23,20 @@
     "url": "https://github.com/pablolmiranda/tslox/issues"
   },
   "homepage": "https://github.com/pablolmiranda/tslox#readme",
-  "dependencies": {
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.9.0",
+    "@types/jest": "^25.2.3",
+    "@types/node": "^13.11.0",
+    "babel-jest": "^25.2.6",
     "eslint": "^6.8.0",
-    "typescript": "^3.8.3"
+    "jest": "^26.0.1",
+    "minimist": "^1.2.5",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {},
+  "jest": {
+    "rootDir": "src"
   }
 }
