@@ -32,9 +32,12 @@ test('scans operators', () => {
 });
 
 test('ignores comment lines', () => {
-  const source = `// this is a comment line`;
+  const source = `
+    // this is a comment line
+    // this is another comment line
+  `;
   const scanner = new Scanner(source);
   const tokens = scanner.scanTokens();
-  const EOFToken = new Token(TokenType.EOF, null, null, 1);
+  const EOFToken = new Token(TokenType.EOF, null, null, 4);
   expect(tokens).toStrictEqual([EOFToken]);
 });

@@ -96,6 +96,9 @@ class Scanner {
           this.addToken(TokenType.SLASH);
           break;
         }
+      case '\n':
+        this.line++;
+        break;
     }
   }
 
