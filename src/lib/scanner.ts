@@ -102,7 +102,40 @@ class Scanner {
       case '\n':
         this.line++;
         break;
+      case ' ':
+      case '\r':
+      case '\t':
+        // Ignore whitespace.
+        break;
+      default:
+        if (this.isDigit(c)) {
+          this.number();
+        } else {
+          throw new Error(`Unexpected character: ${c}`);
+        }
     }
+  }
+
+  isDigit(c: string) {
+    return c >= '0' && c <= '9';
+  }
+
+  number() {
+    while (this.isDigit(this.peek())) {
+      this.advance();
+    }
+
+    if (this.peek() === TokenType.DOT && this.isDigit(this.peekNext())) {
+      this.advance();
+      while (this.isDigit(this.peek())) {
+        this.advance();
+      }
+    }
+
+    this.addToken(
+      TokenType.NUMBER,
+      parseFloat(this.source.substring(this.start, this.current))
+    );
   }
 
   string() {
@@ -135,6 +168,13 @@ class Scanner {
     return this.source[this.current];
   }
 
+  peekNext() {
+    if (this.current + 1 > this.source.length) {
+      return '\0';
+    }
+    return this.source[this.current + 1];
+  }
+
   match(expected: string) {
     if (this.isAtEnd()) return false;
     if (this.source[this.current] !== expected) return false;
@@ -148,7 +188,7 @@ class Scanner {
     return this.source[this.current - 1];
   }
 
-  addToken(tokenType: TokenType, literal?: object | string) {
+  addToken(tokenType: TokenType, literal?: object | string | number) {
     const text = this.source.substring(this.start, this.current);
     this.tokens.push(new Token(tokenType, text, literal, this.line));
   }

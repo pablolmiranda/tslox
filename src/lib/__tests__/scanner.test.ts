@@ -52,3 +52,13 @@ test('scans strings', () => {
     new Token(TokenType.EOF, null, null, 1),
   ]);
 });
+
+test('scan numbers', () => {
+  const source = `
+  1234
+  1234.5678
+  `;
+  const scanner = new Scanner(source);
+  const tokens = scanner.scanTokens();
+  expect(tokens.length).toBe(3); // two numbers and one EOF token
+});
