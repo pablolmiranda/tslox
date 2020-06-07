@@ -88,7 +88,7 @@ class Scanner {
         if (this.match(TokenType.SLASH)) {
           // this is a comment, we need to consume all the characters
           // until the end of line
-          while (this.peek() !== '\n' && this.isAtEnd()) {
+          while (this.peek() !== '\n' && !this.isAtEnd()) {
             this.advance();
           }
           break;
