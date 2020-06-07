@@ -41,3 +41,14 @@ test('ignores comment lines', () => {
   const EOFToken = new Token(TokenType.EOF, null, null, 4);
   expect(tokens).toStrictEqual([EOFToken]);
 });
+
+test('scans strings', () => {
+  const source = `"Hello World"`;
+  const scanner = new Scanner(source);
+  const tokens = scanner.scanTokens();
+  // Should include 1 string token and 1 EOF token
+  expect(tokens).toStrictEqual([
+    new Token(TokenType.STRING, `"Hello World"`, 'Hello World', 1),
+    new Token(TokenType.EOF, null, null, 1),
+  ]);
+});

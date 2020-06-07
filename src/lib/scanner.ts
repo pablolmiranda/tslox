@@ -96,10 +96,35 @@ class Scanner {
           this.addToken(TokenType.SLASH);
           break;
         }
+      case TokenType.DOUBLE_QUOTE: // it is a string
+        this.string();
+        break;
       case '\n':
         this.line++;
         break;
     }
+  }
+
+  string() {
+    while (this.peek() !== TokenType.DOUBLE_QUOTE && !this.isAtEnd()) {
+      if (this.peek() === '\n') {
+        this.line++;
+      }
+      this.advance();
+    }
+
+    if (this.isAtEnd()) {
+      throw new Error('Unterminated string');
+    }
+
+    this.advance();
+
+    const stringLiteral = this.source.substring(
+      this.start + 1,
+      this.current - 1
+    );
+
+    this.addToken(TokenType.STRING, stringLiteral);
   }
 
   /**
@@ -123,7 +148,7 @@ class Scanner {
     return this.source[this.current - 1];
   }
 
-  addToken(tokenType: TokenType, literal?: object) {
+  addToken(tokenType: TokenType, literal?: object | string) {
     const text = this.source.substring(this.start, this.current);
     this.tokens.push(new Token(tokenType, text, literal, this.line));
   }
